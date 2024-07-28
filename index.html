@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>traXpenses</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e0f7fa;
+            color: #00796b;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 {
+            color: #004d40;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        input, select, button {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #b2dfdb;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4db6ac;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #00897b;
+        }
+        .expense-list {
+            list-style: none;
+            padding: 0;
+        }
+        .expense-item {
+            background-color: #e0f2f1;
+            border: 1px solid #80cbc4;
+            border-radius: 5px;
+            margin: 5px 0;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .expense-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .expense-category {
+            font-size: 0.9em;
+            color: #00796b;
+        }
+        nav {
+            background-color: #009688;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1; /* Ensure navbar stays on top */
+        }
+        nav h1 {
+            margin: 0;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav li {
+            margin-left: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+        }
+        .content {
+            margin-top: 70px; /* Account for navbar height */
+            padding: 20px;
+        }
+        .section {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+            text-align: left;
+        }
+        .section h2 {
+            color: #004d40;
+            margin-top: 0;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            input, select, button {
+                width: calc(100% - 15px);
+                padding: 8px;
+                margin: 8px 0;
+            } 
+        }
+        .budget-section {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+            text-align: left;
+        }
+        .budget-section h2 {
+            color: #004d40;
+            margin-top: 0;
+        }
+        .budget-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #b2dfdb;
+            border-radius: 5px;
+        }
+        .budget-warning {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+    </style>
+<script src="https://replit.com/public/js/repl-auth-v2.js"></script>
+<script src="https://replit.com/public/js/repl-auth-v2.js"></script>
+</head>
+<body>
+    <nav>
+            <h1>traXpensive</h1>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="about.html"">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+<script type="module">const user = await getUserInfo() </script>
+<button onclick="LoginWithReplit()"> Login </button>
+            </ul>
+    
+
+    </nav>
+
+    <div class="content">
+        <div class="container" role="main" id="home">
+            <h1 tabindex="0">traXpensive</h1>
+            <label for="expenseName" class="visually-hidden">Expense Name</label>
+            <input type="text" id="expenseName" placeholder="Expense Name" aria-label="Expense Name">
+            
+            <label for="expenseAmount" class="visually-hidden">Amount</label>
+            <input type="number" id="expenseAmount" placeholder="Amount" aria-label="Amount">
+            
+            <label for="expenseCategory" class="visually-hidden">Category</label>
+            <select id="expenseCategory" aria-label="Expense Category">
+                <option value="Food">Food</option>
+                <option value="Travel">Travel</option>
+                <option value="Utilities">Utilities</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Others">Others</option>
+            </select>
+            
+            <button onclick="addExpense()">Add Expense</button>
+            <ul class="expense-list" id="expenseList"></ul>
+        </div>
+
+        <div class="budget-section" id="budgetSection">
+            <h2>Set Your Monthly Budget</h2>
+            <label for="budgetLimit">Budget Limit:</label>
+            <input type="number" class="budget-input" id="budgetLimit" placeholder="Enter budget limit">
+            <button onclick="setBudget()">Set Budget</button>
+            <p id="budgetStatus"></p>
+        </div>
+
+        <div class="section" id="about">
+            <h2>About traXpensive</h2>
+            <p>traXpensive is a simple and easy-to-use expense tracking tool that helps you manage your finances. </p>
+        </div>
+
+        <div class="section" id="contact">
+            <h2>Contact Us</h2>
+            <p>If you have any questions or feedback, please feel free to contact us at: </p>
+            <p>Email: <a href="mailto:info@traxpensive.com">info@traxpensive.com</a></p>
+        </div>
+    </div>
+
+    <div class="chatbot">
+        <h3>traXpensive Chat</h3>
+        <div class="chat-messages" id="chatMessages"></div>
+        <input type="text" class="chat-input" id="chatInput" placeholder="Type your message...">
+        <button class="chat-send-button" onclick="sendMessage()">Send</button>
+    </div>
+
+    <script src="https://smtpjs.com/v3/smtpjs.js"></script> <!-- Import EmailJS -->
+
+    <script>
+        function addExpense() {
+            const name = document.getElementById('expenseName').value;
+            const amount = parseFloat(document.getElementById('expenseAmount').value);
+            const category = document.getElementById('expenseCategory').value;
+            
+            if (name && amount && category) {
+                const expenseList = document.getElementById('expenseList');
+                const li = document.createElement('li');
+                li.className = 'expense-item';
+                li.innerHTML = `
+                    <div class="expense-details">
+                        <span>${name}: $${amount}</span>
+                        <span class="expense-category">${category}</span>
+                    </div>
+                    <button onclick="removeExpense(this)">Remove</button>
+                `;
+                expenseList.appendChild(li);
+                document.getElementById('expenseName').value = '';
+                document.getElementById('expenseAmount').value = '';
+                document.getElementById('expenseCategory').value = 'Food';
+
+                // Update total spending
+                updateTotalSpending(amount);
+            }
+        }
+        function removeExpense(button) {
+            const li = button.parentElement;
+            const amount = parseFloat(li.querySelector('.expense-details span:first-child').textContent.split(': ')[1].replace('$', ''));
+            li.remove();
+
+            // Update total spending
+            updateTotalSpending(-amount);
+        }
+
+        let totalSpending = 0;
+        let budgetLimit = 0;
+
+        function updateTotalSpending(amount) {
+            totalSpending += amount;
+            document.getElementById('budgetStatus').textContent = `Total Spending: $${totalSpending.toFixed(2)}`;
+            checkBudget();
+        }
+
+        function setBudget() {
+            budgetLimit = parseFloat(document.getElementById('budgetLimit').value);
+            if (!isNaN(budgetLimit)) {
+                document.getElementById('budgetStatus').textContent = `Budget Limit: $${budgetLimit.toFixed(2)}`;
+                checkBudget();
+            } else {
+                document.getElementById('budgetStatus').textContent = "Please enter a valid budget limit.";
+            }
+        }
+
+        function checkBudget() {
+            if (budgetLimit > 0 && totalSpending > budgetLimit) {
+                document.getElementById('budgetStatus').textContent += "  <span class='budget-warning'>You've exceeded your budget!</span>";
+            } else if (budgetLimit > 0) {
+                document.getElementById('budgetStatus').textContent += `  (${totalSpending.toFixed(2)} / ${budgetLimit.toFixed(2)})`;
+            }
+        }
+
+        function sendMessage() {
+            /* ... existing sendMessage function ... */
+        }
+
+        function sendEmail(message, email) {
+            /* ... existing sendEmail function ... */
+        }
+    </script>
+</body>
+</html>
